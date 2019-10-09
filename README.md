@@ -26,6 +26,8 @@ Click on "Remove Screen" to navigate to the remove train screen.
         - if no, screen will tell you that you are wasting time and to get back to scheduling trains and threaten termination for poor performance
         - if yes, play end of Anima Video (where Thom Yorke breaks free from the train station and is able to dance freely and enjoy life on the outside)
 
+3.  Try to parse music into loops so that as things are happening a specific part of the song plays seemlessly transitioning b/w screens to create a remix.
+
 
 
      https://pharmdcoder.github.io/train-scheduler/
