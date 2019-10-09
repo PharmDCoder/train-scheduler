@@ -1,7 +1,7 @@
 $(document).ready(function () {
     //play music
     //set flag equal to false so that music only plays once on loop
-
+    var rowRemoval;
     var flag = false;
     if (!flag) {
         $(".nav-item").on("click", function play() {
@@ -85,9 +85,8 @@ $(document).ready(function () {
 
     $("#remove-train-btn").on("click", function() {  
         database.ref("/trains").child($(this).attr("selectedTrain")).remove();
-        window.location.reload();
+        rowRemoval.remove();
         workFlow("assets/images/train-people.gif");
-        alert("this works");
         $("#intro-screen").hide();
         $("#add-train").hide();
         $("#current-train-schedule").show();
@@ -97,6 +96,7 @@ $(document).ready(function () {
     $(document.body).on("click","tbody tr", function() {  
         console.log($(this).children().eq(0).text());
         $("#remove-train-btn").attr("selectedTrain", $(this).children().eq(0).text());
+        rowRemoval = $(this);
     });
 
     // Firebase watcher + initial loader 
@@ -119,8 +119,6 @@ $(document).ready(function () {
         var nextArrivalTime = getNextArrival(childSnapshot.val().firstArrivalInput, childSnapshot.val().frequencyInput);
         function getNextArrival(start, frequencyInput) {
             var startTime = moment(start, 'HH:mm');
-            var endTime = moment();
-
             var nextArrivalTime = [];
 
             while (startTime <= moment().add(frequencyInput, "minutes")) {
@@ -154,6 +152,10 @@ $(document).ready(function () {
 
     }, function (errorObject) {
         console.log("Errors handled: " + errorObject.code);
+    });
+
+    database.ref("/trains").on("child_removed", function (childSnapshot) {
+        
     });
 
     function playGif(gifSrc, gifTime, navInput) {

@@ -19,3 +19,5 @@ Functionality Musts:
 
 3. set up js to figure out and pass next arrival time into FB
     - for loop (if time+interval < 24:00>)
+
+     https://pharmdcoder.github.io/train-scheduler/
