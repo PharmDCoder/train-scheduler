@@ -32,46 +32,37 @@
             </nav>
             <img id="top-img" class="img-fluid col-12">
         </div>
-        <!-- <div id="nav-bar" class="jumbotron row bg-dark">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="#">Train Scheduling Portal for Rockefeller Inc.,</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a id="current-schedule-nav" class="nav-item nav-link active" href="#">View Current
-                            Schedule<span class="sr-only">(current)</span></a>
-                        <a id="add-train-nav" class="nav-item nav-link" href="#">Add Train</a>
-                        <a id="remove-train-nav" class="nav-item nav-link" href="#">Remove Train</a>
-                    </div>
-                </div>
-            </nav>
-        </div> -->
         <div id="intro-screen" class="row justify-content-center">
             <div class="col-12">
                 <img id="tunnel" class="img-responsive" src="assets/images/tunnel.gif">
+                <!-- <video id="top-video" class="video-fluid z-depth-1 col-12" autoplay loop controls muted>
+                    <source id="top-video-src" type="video/webm">
+                </video> -->
             </div>
         </div>
         <div id="current-train-schedule" class="card row mx-auto col-10">
             <div id="train-title" class="card-header font-weight-bold text-black text-center">
                 Current Train Schedule
             </div>
-            <table class="table table-striped table-responsive-sm">
-                <thead class="thead-dark">
-                    <tr>
-                        <th class="font-weight-bold" scope="col">Train Name</th>
-                        <th class="font-weight-bold" scope="col">Destination</th>
-                        <th class="font-weight-bold" scope="col">Frequency</th>
-                        <th class="font-weight-bold" scope="col">Next Arrival</th>
-                        <th class="font-weight-bold" scope="col">Minutes Away</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div id="train-table">
+                <table class="table table-striped table-hover table-responsive-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="font-weight-bold" scope="col">Train Name</th>
+                            <th class="font-weight-bold" scope="col">Destination</th>
+                            <th class="font-weight-bold" scope="col">Frequency</th>
+                            <th class="font-weight-bold" scope="col">Next Arrival</th>
+                            <th class="font-weight-bold" scope="col">Minutes Away</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-2">
+                <button id="remove-train-btn" class="btn-danger">Remove Train</button>
+            </div>
         </div>
         <br />
         <div id="add-train" class="card row mx-auto col-6 bg-secondary">
@@ -95,8 +86,11 @@
                     <label for="formGroupExampleInput2">First Train Time (HH:mm - Military Time)</label>
                     <input type="text" class="form-control" id="first-arrival-input">
                 </div>
-                <button class="btn btn-info">Submit</button>
+                <div>
+                    <button id="add-train-btn" class="btn btn-info">Submit</button>
+                </div>
             </form>
+
         </div>
 
 

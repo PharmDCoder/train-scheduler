@@ -1,6 +1,7 @@
 $(document).ready(function () {
     //play music
     //set flag equal to false so that music only plays once on loop
+
     var flag = false;
     if (!flag) {
         $(".nav-item").on("click", function play() {
@@ -14,11 +15,13 @@ $(document).ready(function () {
     $("#add-train").hide();
     $("#current-train-schedule").hide();
     $("#top-img").hide();
+    // $("#top-video-src").attr("src", "assets")
 
     //hides screens other than current train schedule once current-schedule nav button is clicked
     $("#current-schedule-nav").on("click", function () {
         playGif("assets/images/tYorkPeekingOver.gif", 6500, "view-schedule");
         $("#top-image").hide();
+        $("#remove-train-btn").hide();
     })
 
     //hides screens other than current train schedule once add-train nav button is clicked
@@ -26,6 +29,15 @@ $(document).ready(function () {
         workFlow("assets/images/train-people.gif");
         $("#add-train").show();
         $("#current-train-schedule").hide();
+        $("#remove-train-btn").hide();
+    })
+
+    //
+    $("#remove-train-nav").on("click", function () {
+        workFlow("assets/images/train-people.gif");
+        $("#add-train").hide();
+        $("#current-train-schedule").show();
+        $("#remove-train-btn").show();
     })
 
     // Your web app's Firebase configuration
@@ -46,9 +58,10 @@ $(document).ready(function () {
     var database = firebase.database();
 
     //When add a train submit button is clicked
-    $("button").on("click", function () {
+    $("#add-train-btn").on("click", function () {
         playGif("assets/images/adding-train.gif", 3000, "add-train");
         $("#current-train-schedule").show();
+
         //prevents the default action to run back to the top of the code
         event.preventDefault();
         //declaring variables for each key of data and assigning the value to dispay on DOM
@@ -57,20 +70,37 @@ $(document).ready(function () {
         var frequencyInput = $("#frequency-input").val();
         var firstArrivalInput = $("#first-arrival-input").val();
 
-        //function to find next arrival
-
-
         //function to reference database and push the information into firebase
-        database.ref().push({
+        database.ref("/trains").child(nameInput).set({
             nameInput: nameInput,
             destinationInput: destinationInput,
             frequencyInput: frequencyInput,
-            nextArrivalInput: nextArrivalInput
+            firstArrivalInput: firstArrivalInput
         })
-    })
+        $("tbody tr:first").addClass("table-success");
+        setTimeout(() => {
+            $("tbody tr:first").removeClass("table-success");
+        }, 3000);
+    });
+
+    $("#remove-train-btn").on("click", function() {  
+        database.ref("/trains").child($(this).attr("selectedTrain")).remove();
+        window.location.reload();
+        workFlow("assets/images/train-people.gif");
+        alert("this works");
+        $("#intro-screen").hide();
+        $("#add-train").hide();
+        $("#current-train-schedule").show();
+        $("#remove-train-btn").show();
+    });
+
+    $(document.body).on("click","tbody tr", function() {  
+        console.log($(this).children().eq(0).text());
+        $("#remove-train-btn").attr("selectedTrain", $(this).children().eq(0).text());
+    });
 
     // Firebase watcher + initial loader 
-    database.ref().on("child_added", function (childSnapshot) {
+    database.ref("/trains").on("child_added", function (childSnapshot) {
         //creating a variable that generates a new row in DOM for each scheduled train
         var trainData = $("<tr>");
         // Setting variables for all properties to have a column dynamically added to DOM (no actual values - just the space)
@@ -84,17 +114,32 @@ $(document).ready(function () {
         trainName.append(childSnapshot.val().nameInput);
         destination.append(childSnapshot.val().destinationInput);
         frequency.append(childSnapshot.val().frequencyInput);
-        nextArrival.append(childSnapshot.val().nextArrivalInput);
+
+        // endTime = moment(firstArrivalInput, 'HH:mm').add(frequencyInput, 'minutes').format('HH:mm');
+        var nextArrivalTime = getNextArrival(childSnapshot.val().firstArrivalInput, childSnapshot.val().frequencyInput);
+        function getNextArrival(start, frequencyInput) {
+            var startTime = moment(start, 'HH:mm');
+            var endTime = moment();
+
+            var nextArrivalTime = [];
+
+            while (startTime <= moment().add(frequencyInput, "minutes")) {
+                nextArrivalTime.push(new moment(startTime).format('HH:mm'));
+                startTime.add(frequencyInput, 'minutes');
+            }
+            return nextArrivalTime[nextArrivalTime.length - 1];
+        }
+        nextArrival.append(nextArrivalTime);
 
         //using JS to capture the date to new variable dateHold
         var dateHold = new Date();
         //using JS function to generate the date in proper format to be recognized by moment JS
         var currentDate = (dateHold.getMonth() + 1) + "/" + dateHold.getDate() + "/" + dateHold.getFullYear() + " ";
         //using moment JS to assign the date + time of next arrival to new timeStamp variable 
-        var timeStamp = moment(currentDate + childSnapshot.val().nextArrivalInput)
+        var timeStamp = moment(currentDate + nextArrivalTime);
 
         //assinging value to minutesAway variable to pass through moment JS calculation of time from next arrival to now
-        minutesAway.append(timeStamp.toNow());
+        minutesAway.append(timeStamp.toNow(true));
 
         //appending all of the td's to the tr, trainData
         trainData.append(trainName);
@@ -104,7 +149,7 @@ $(document).ready(function () {
         trainData.append(minutesAway);
 
         //adding the trainData rows to the tbody div on the DOM
-        $("tbody").append(trainData);
+        $("tbody").prepend(trainData);
 
 
     }, function (errorObject) {
@@ -116,14 +161,12 @@ $(document).ready(function () {
         $("#top-img").attr("src", gifSrc);
         $("#intro-screen").hide();
         $("#current-train-schedule").show();
+        $("#add-train").hide();
         setTimeout(() => {
-            if (navInput === "view-schedule") {    
-                $("#current-train-schedule").show();
+            if (navInput === "view-schedule") {
                 $("#top-img").hide();
-                $("#add-train").hide();
-            } 
+            }
             if (navInput === "add-train") {
-                $("#top-img").show();
                 $("#top-img").attr("src", "assets/images/train-people.gif");
                 $("#add-train").show();
                 $("#current-train-schedule").hide();

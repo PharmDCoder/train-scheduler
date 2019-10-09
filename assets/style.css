@@ -4,6 +4,11 @@ body {
     /* width: 100vw; */
 }
 
+.video-fluid {
+    width: 100%;
+    height: auto;
+  }
+
 #tunnel {
     width:100%;
 }
@@ -11,6 +16,11 @@ body {
 #train-title {
     background-color: #B5B4C6;
     font-size: 2rem;
+}
+
+#train-table {
+    height: 60vh;
+    overflow-y: scroll;
 }
 
 #add-train-title {
