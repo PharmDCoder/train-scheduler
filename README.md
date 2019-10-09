@@ -1,23 +1,31 @@
 # train-scheduler
-To Do:
+Welcome to Global Consolidated Transportation, Inc. Employee Portal.
 
-Functionality Musts:
-1. need to create remove train screen
-    - title w/ instructions
-    - people on train gif
-    - view current schedule
-    - hover on row and click to select row
-    - click delete button to remove train
-       - set time out for remove gif
-            - playGif
-            - row deleted highlighted red
+At Global Consolidated Transportation we value efficiency and therefor your metrics will be tracked to ensure you are maximizing profits for our share holders.  Your performance data is measured against your coworkers in real time to determine the next round of lay-offs.
 
-2. add train screen
-    - need to format arrival time
-        - set time out for add gif
-        - add new row to top and highlight green
+Use the NavBar at the top of the screen to navigate the portal.
 
-3. set up js to figure out and pass next arrival time into FB
-    - for loop (if time+interval < 24:00>)
+Click on "View Current Schedule" to see the current data for all scheduled trains.
+
+Click on "Add Train" to navigate to the screen to add trains:
+    - fill in the blank fields
+        - make sure to input frequency in minutes and arrival time in military time
+    - click submit to add the train to the schedule
+
+Click on "Remove Screen" to navigate to the remove train screen.
+    - click on the row of the train to select it
+    - click delete button to remove train.
+
+
+****Development time was short but full application would have:
+
+1.  Employee login (clip from Anima of T. Yorke climbing an incline in the shadows of anonymous people climbing to the top and then everyone falling down on a loop to symbolize the corporate ladder.)
+
+2.  4th option in NavBar called "Career Management"
+    - click on to screen that asks if you would like to quit your job
+        - if no, screen will tell you that you are wasting time and to get back to scheduling trains and threaten termination for poor performance
+        - if yes, play end of Anima Video (where Thom Yorke breaks free from the train station and is able to dance freely and enjoy life on the outside)
+
+
 
      https://pharmdcoder.github.io/train-scheduler/

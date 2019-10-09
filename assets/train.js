@@ -2,6 +2,7 @@ $(document).ready(function () {
     //play music
     //set flag equal to false so that music only plays once on loop
     var rowRemoval;
+    var gifTimeout;
     var flag = false;
     if (!flag) {
         $(".nav-item").on("click", function play() {
@@ -79,7 +80,10 @@ $(document).ready(function () {
         $("tbody tr:first").addClass("table-success");
         setTimeout(() => {
             $("tbody tr:first").removeClass("table-success");
+            $("form").trigger("reset");
         }, 3000);
+
+        
     });
 
     $("#remove-train-btn").on("click", function() {  
@@ -156,11 +160,12 @@ $(document).ready(function () {
 
     function playGif(gifSrc, gifTime, navInput) {
         $("#top-img").show();
+        clearTimeout(gifTimeout);
         $("#top-img").attr("src", gifSrc);
         $("#intro-screen").hide();
         $("#current-train-schedule").show();
         $("#add-train").hide();
-        setTimeout(() => {
+        gifTimeout = setTimeout(() => {
             if (navInput === "view-schedule") {
                 $("#top-img").hide();
             }
