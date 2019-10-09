@@ -61,7 +61,6 @@ $(document).ready(function () {
     $("#add-train-btn").on("click", function () {
         playGif("assets/images/adding-train.gif", 3000, "add-train");
         $("#current-train-schedule").show();
-
         //prevents the default action to run back to the top of the code
         event.preventDefault();
         //declaring variables for each key of data and assigning the value to dispay on DOM
@@ -85,18 +84,15 @@ $(document).ready(function () {
 
     $("#remove-train-btn").on("click", function() {  
         database.ref("/trains").child($(this).attr("selectedTrain")).remove();
-        rowRemoval.remove();
-        workFlow("assets/images/train-people.gif");
-        $("#intro-screen").hide();
-        $("#add-train").hide();
-        $("#current-train-schedule").show();
-        $("#remove-train-btn").show();
+        $(rowRemoval).addClass("table-danger");
+        playGif("assets/images/removing-train.gif", 2000, "remove-train");
     });
 
     $(document.body).on("click","tbody tr", function() {  
         console.log($(this).children().eq(0).text());
         $("#remove-train-btn").attr("selectedTrain", $(this).children().eq(0).text());
         rowRemoval = $(this);
+        $(this).addClass("table-secondary");
     });
 
     // Firebase watcher + initial loader 
@@ -172,6 +168,10 @@ $(document).ready(function () {
                 $("#top-img").attr("src", "assets/images/train-people.gif");
                 $("#add-train").show();
                 $("#current-train-schedule").hide();
+            }
+            if (navInput === "remove-train") {
+                $("#top-img").attr("src", "assets/images/train-people.gif");
+                rowRemoval.remove();
             }
         }, gifTime);
     }

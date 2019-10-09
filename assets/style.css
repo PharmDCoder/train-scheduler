@@ -19,7 +19,7 @@ body {
 }
 
 #train-table {
-    height: 60vh;
+    height: 45vh;
     overflow-y: scroll;
 }
 
